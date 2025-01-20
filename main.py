@@ -1,59 +1,75 @@
-import tkinter as tk
+           # КРЕСТИКИ НОЛИКИ.
+def check_winner():
 
-def get_values():
-    num1 = int(number1_entry.get())
-    num2 = int(number2_entry.get())
-    return num1, num2
+    if area[0][0] == 'X' and area[0][1] == 'X' and area[0][2] == 'X':
+        return 'X'
+    if area[1][0] == 'X' and area[1][1] == 'X' and area[1][2] == 'X':
+        return 'X'
+    if area[2][0] == 'x' and area[2][1] == 'X' and area[2][2] == 'X':
+        return'X'
+    if area[0][0] == 'X' and area[1][0] == 'X' and area[2][0] == 'X':
+        return 'X'
+    if area[0][1] == 'X' and area[1][1] == 'X' and area[2][1] == 'x':
+        return 'X'
+    if area[0][2] == 'X' and area[1][2] == 'X' and area[2][2] == 'X':
+        return 'X'
+    if area[0][0] == 'X' and area[1][1] == 'X' and area[2][2] == 'X':
+        return 'X'
+    if area[0][2] == 'X' and area[1][1] == 'X' and area[2][0] == 'X':
+        return 'X'
+    if area[0][0] == '0' and area[0][1] == '0' and area[0][2] == '0':
+        return '0'
+    if area[1][0] == '0' and area[1][1] == '0' and area[1][2] == '0':
+        return '0'
+    if area[2][0] == '0' and area[2][1] == '0' and area[2][2] == '0':
+        return '0'
+    if area[0][0] == '0' and area[1][0] == '0' and area[2][0] == '0':
+        return '0'
+    if area[0][1] == '0' and area[1][1] == '0' and area[2][1] == '0':
+        return '0'
+    if area[0][2] == '0' and area[1][2] == '0' and area[2][2] == '0':
+        return '0'
+    if area[0][0] == '0' and area[1][1] == '0' and area[2][2] == '0':
+        return '0'
+    if area[0][2] == '0' and area[1][1] == '0' and area[2][0] == '0':
+        return '0'
 
-def insert_values(value):
-    answer_entry.delete(0, 'end')
-    answer_entry.insert(0, value)
 
+def draw_area():
+    for i in area:
+        print(*i)
+    print()
 
-def add():
-    num1, num2 = get_values()
-    res = num1 + num2
-    insert_values(res)
+area = [['*', '*', '*'], ['*', '*', '*'], ['*','*','*']]
+print("Добро пожаловать в крестики-нолики!")
+print('-----------------------------------')
+draw_area()
+for turn in range(1, 10):
+    print(f'Ход: {turn}')
+    if turn % 2 == 0:
+        turn_char = '0'
+        print('Ходят нолики')
+    else:
+        turn_char = 'X'
+        print('Ходят крестики')
+    row = int(input('Введите номер строки(1,2,3) ')) - 1
+    column = int(input('Введите номер столбца (1,2,3) ')) - 1
+    if area [row][column] == '*':
+        area[row][column] = turn_char
+    else:
+        print('Ячейка уже занята, вы пропускаете ход.')
+        continue
 
-def sub():
-    num1, num2 = get_values()
-    res = num1 - num2
-    insert_values(res)
+    draw_area()
 
-def div():
-    num1, num2 = get_values()
-    res = num1 / num2
-    insert_values(res)
+    if check_winner() == 'X':
+        print('Победа крестиков.')
+        break
+    if check_winner() == '0':
+        print('Победа ноликов.')
+        break
+    if check_winner() == '*' and turn == 9:
+        print("Ничья.")
 
-def mul():
-    num1, num2 = get_values()
-    res = num1 * num2
-    insert_values(res)
+#  Вернуться и реализовать другим способом в январе.
 
-
-window = tk.Tk()
-window.title('Калькулятор')  # Поменяли название
-window.geometry('350x350')    # Задали размер нашего калькулятора
-window.resizable(False, False)  # Сделали так, чтобы нельзя было менять размер
-button_add = tk.Button(window, text='+', width=2, height=2, command=add)  # Дали название кнопке "+", задали размеры кнопки
-button_add.place(x=90, y= 200)     # Расположение кнопки "+"
-button_sub = tk.Button(window, text='-', width= 2, height=2, command=sub) # Кнопка '-' и ее размер
-button_sub.place(x= 140, y= 200)   # Расположение на окне
-button_mull = tk.Button(window,text='/', width=2, height=2, command=div)  # кнопка умножить и ее размеры
-button_mull.place(x=190, y=200)            # расположение
-button_div = tk.Button(window, text='*', width=2, height=2, command=mul)   # кнопка разделить и ее размер
-button_div.place(x=240, y=200)       # расположение
-number1_entry = tk.Entry(window, width=22)     # строка для ввода и ее размер
-number1_entry.place(x=90, y=75)       #   ее расположение
-number2_entry = tk.Entry(window, width=22)    #  вторая строка для ввода и ее размер
-number2_entry.place(x=90, y=150)             # расположение второй строки
-answer_entry = tk.Entry(window, width=22)   #  строка с ответом и ее размер
-answer_entry.place(x=90, y=280)           # расположение строки с ответом
-number1 = tk.Label(window, text='Введите первое число: ')   # название для первой строки
-number1.place(x= 100, y=50)  #  ее расположение
-number2 = tk.Label(window, text='Введите второе число: ')  # название для второй строки
-number2.place(x= 100, y=125)    # ее расположение
-answer = tk.Label(window, text='Ответ: ')  # название для строки с ответом
-answer.place(x= 100, y=250)   # ее расположение: x - по горизонтали, y - по вертикали (для всего окна).
-
-window.mainloop()   # Метод, который обеспечивает все изменения, происходящие в калькуляторе
